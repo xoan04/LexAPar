@@ -66,20 +66,18 @@ def t_ENTERO(t):
 
 def t_ID(t):
      r'[a-zA-Z_][a-zA-Z_0-9]*'
-     t.type = reservadas.get(t.value.lower(),'ID')    # Check for reserved words
+     t.type = reservadas.get(t.value.lower(),'ID') #Verificar palabras reservadas
      return t
 
 def t_CADENA(t):
     r'\".*?\"'
-    t.value = t.value[1:-1] # remuevo las comillas
+    t.value = t.value[1:-1] # removiendo las comillas
     return t 
 
-# Comentario de múltiples líneas /* .. */
 def t_COMENTARIO_MULTILINEA(t):
     r'/\*(.|\n)*?\*/'
     t.lexer.lineno += t.value.count('\n')
 
-# Comentario simple // ...
 def t_COMENTARIO_SIMPLE(t):
     r'//.*\n'
     t.lexer.lineno += 1
@@ -95,12 +93,12 @@ def t_error(t):
     print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
 
-# Construyendo el analizador léxico
+#Analizador léxico
 import ply.lex as lex
 lexer = lex.lex()
 
 
-# Asociación de operadores y precedencia
+#Precedencia
 precedence = (
     ('left','CONCAT'),
     ('left','MAS','MENOS'),
